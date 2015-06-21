@@ -1,8 +1,22 @@
+var $interval;
+
 $(document).ready ( function() {
+    $("#canvas").empty();
+    clearTimeout($interval);
+    buildPage();
+});
+/*
+$( window ).resize(function() {
+    $("#canvas").empty();
+    clearTimeout($interval);
+    buildPage();
+});*/
+
+// FUNCTIONS
+function buildPage() {
     var $file = "resources/data/colors.json";
 
-    // get the colors
-    var $getColors = $.getJSON( $file, function($data) {
+    $.getJSON( $file, function($data) {
 
         // Get the colors from the JSON file
         var $colors = [];
@@ -11,8 +25,6 @@ $(document).ready ( function() {
             $.each( $val[0].codes, function($key2, $val2){
                 $colors.push($val2)
             });
-
-
         });
 
         // Draw the rectangles
@@ -33,5 +45,27 @@ $(document).ready ( function() {
                 "background-color": $colors[$color_number]
             });
         }
+
+        // Set timeout for animation: change colors
+        $interval = setTimeout(function(){
+            change_colors($colors, $amount_colors - 1);
+        }, 100);
     });
-});
+}
+
+// Changes the color of each shape
+function change_colors($colors, $start_index){
+    var $size = $colors.length;
+    for(var $i=0; $i<$size; $i++){
+        var $color_number = ($i + $start_index) % $size;
+        var $id = "color" + $i;
+
+        $("." + $id).css({
+            "background-color": $colors[$color_number]
+        });
+    }
+
+    $interval = setTimeout(function(){
+        change_colors($colors, ($start_index + $size - 1) % $size );
+    }, 100);
+}
