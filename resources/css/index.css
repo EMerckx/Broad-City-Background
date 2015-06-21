@@ -12,8 +12,11 @@
     position: relative;
     top: -100%;
     left: -100%;
+    min-width: 6000px;
+    min-height: 100px;
     width: 300%;
     height: 300%;
+    display: block;
 }
 
 .shape{
