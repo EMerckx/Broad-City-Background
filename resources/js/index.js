@@ -1,16 +1,11 @@
 var $interval;
+var $time;
 
 $(document).ready ( function() {
     $("#canvas").empty();
     clearTimeout($interval);
     buildPage();
 });
-/*
-$( window ).resize(function() {
-    $("#canvas").empty();
-    clearTimeout($interval);
-    buildPage();
-});*/
 
 // FUNCTIONS
 function buildPage() {
@@ -21,8 +16,12 @@ function buildPage() {
         // Get the colors from the JSON file
         var $colors = [];
         $.each( $data, function( $key, $val ){
-            //console.log($val);
-            $.each( $val[0].codes, function($key2, $val2){
+
+            // get random sequence number
+            var $sequence_number = Math.floor(Math.random() * $val.length);
+
+            // push colors to array
+            $.each( $val[$sequence_number].codes, function($key2, $val2){
                 $colors.push($val2)
             });
         });
@@ -47,9 +46,10 @@ function buildPage() {
         }
 
         // Set timeout for animation: change colors
+        $time = 500 / $amount_colors;
         $interval = setTimeout(function(){
             change_colors($colors, $amount_colors - 1);
-        }, 100);
+        }, $time);
     });
 }
 
@@ -67,5 +67,5 @@ function change_colors($colors, $start_index){
 
     $interval = setTimeout(function(){
         change_colors($colors, ($start_index + $size - 1) % $size );
-    }, 100);
+    }, $time);
 }

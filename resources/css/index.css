@@ -26,8 +26,9 @@
     top: -100%;
     float: left;
     display: inline-block;
+    border: solid black;
 
+    -ms-transform: rotate(35deg); /* IE 9 */
     -webkit-transform: rotate(35deg); /* Chrome, Safari, Opera */
     transform: rotate(35deg);
-
 }
